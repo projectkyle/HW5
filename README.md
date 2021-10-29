@@ -1,42 +1,10 @@
 # HW5
 
-#lab 5
-#code for regression with Asians that have a college degree from the age range 25-65
+1. Retail Chains' Corporate Social Responsibility Communication
 
-attach(acs2017_ny)
-use_varb <- (AGE >= 25) & (AGE <= 65) & (LABFORCE == 2) & (WKSWORK2 > 4) & (UHRSWORK >= 35) & (RACE == 'Asian') & ((educ_college == 1) | (educ_advdeg == 1))
-dat_use <- subset(acs2017_ny,use_varb) # 
-detach()
+This paper examines the communication of corporate social responsibility by companies towards consumers. Although the communication of CSR initiatives by companies isn't new, the marketing of these initiatives has seen a significant increase in recent decades. This includes information on what the company does to improve the environment, decrease environmental impact, labor and material sources, donations, etc. The study uses a sample of 208 Norwegian retail chains. The author hypothesizes that firms will only communicate (through their marketing and websites) their responsibility efforts when it is profitable for the firm and attributes this to the signalling theory. In other words, firms use their CSR efforts to signal to consumers that they are a better firm. It is also hypothesized that retail chains of foreign origin with private brands and low prices are more likely to communicate CSR. The results show that the hypothesis is partially true. Foreign chains with private brands were indeed more likely to communicate CSR, although with no relation to pricing.
 
+2. CEO Ability and Corporate Social Responsibility
 
-require(stargazer)
+Coporate social responsibility has seen widespread growth and it has become an important aspect of firm operation. According to the US Social Investment Forum Foundation's 2014 report, as of year-end 2013, around $6.57 trillion was invested in CSR efforts/activities. This study examines the impact of chief executive officer (CEO) ability on firms' CSR performance. The study cites earlier scholarly works that have confirmed a relationship between CEO characteristics (gender, psychological characteristics, intellectual stimulation, past degree subjects, and political affiliations) and their firms' CSR activities. Since CEOs are known to influence CSR activities, the study predicts that higher ability CEOs are more likely to engage in CSR activities in addition in investing more in CSR. The outcome of the study coonfirms this hypothesis. Because CSR initiatives tend to be long term and require huge investments, they are considered a high risk operation. Higher ability CEOs have more stable careers and are more likely to take risks.
 
-lm1 <- lm(INCWAGE ~ AGE + I(AGE^2) + I(AGE^3) + Chinese + educ_college)
-summary(lm1)
-stargazer(lm1, type = "text", title = "Regression 1")
-
-plot(lm1)
-
-require(AER)
-
-# subset in order to plot...
-NNobs <- length(INCWAGE)
-set.seed(12345) # just so you can replicate and get same "random" choices
-graph_obs <- (runif(NNobs) < 0.1) # so something like just 1/10 as many obs
-dat_graph <-subset(dat_use,graph_obs)  
-
-plot(INCWAGE ~ jitter(AGE, factor = 2), pch = 16, col = rgb(0.5, 0.5, 0.5, alpha = 0.2), data = dat_graph)
-# ^^ that looks like crap since Wages are soooooooo skew!  So try to find some sensible ylim = c(0, ??)
-plot(INCWAGE ~ jitter(AGE, factor = 2), pch = 16, col = rgb(0.5, 0.5, 0.5, alpha = 0.2), ylim = c(0,150000), data = dat_graph)
-# discus what you see in this plot
-
-# change this line to fit your regression
-to_be_predicted2 <- data.frame(AGE = 25:65, AfAm = 0, Asian = 1, Amindian = 0, race_oth = 0, Hispanic = 0, educ_hs = 0, educ_somecoll = 0, educ_college = 1, educ_advdeg = 1)
-to_be_predicted2$yhat <- predict(model_temp1, newdata = to_be_predicted2)
-
-lines(yhat ~ AGE, data = to_be_predicted2)
-
-
-
-
-detach()
